@@ -12,7 +12,7 @@ import { decrement } from '../../store/CartSlice'
 import { useNavigation } from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
 
-export const Cart = ({route}) => {
+export const EditCart = ({route}) => {
   const navigation = useNavigation();
   const { height, width } = Dimensions.get("window");
   
@@ -49,7 +49,7 @@ export const Cart = ({route}) => {
       <View style={{ marginTop: 10, flex: 1, marginHorizontal: 25 }}>
         <View style={{ flexDirection: "row", marginTop: 40 }}>
           <Text style={{ fontWeight: "680", fontSize: 35, color: "black" }}>
-            My Cart
+          Edit Your Cart
           </Text>
           <Image source={require("../../assets/themePics/textburger.png")} style={{ height: 50, width: 50, }} />
         </View>
@@ -65,8 +65,13 @@ export const Cart = ({route}) => {
               <>
                 <View key={index} style={styles.card1}>
                   <LinearGradient colors={["orange", "red"]} style={{ borderRadius: 100, position: "absolute", bottom: 100, left: 30, height: 50, width: 50, justifyContent: "center", alignItems: "center", }}><Text style={{ fontSize: 24, color: "white", textAlignVertical: "center" }}>{product.quantity}</Text></LinearGradient>
-                  <View style={{ flex: 1, justifyContent: "space-between", flexDirection: "row", alignItems: "center" }}>
-                    <Text style={{ color: "black", paddingLeft: 20, fontSize: 23, fontWeight: "bold", textAlign: "left", textAlignVertical: "center" }}>{product.title}</Text>
+                  <View style={{ flex: 1, justifyContent: "space-evenly", flexDirection: "row", alignItems: "center", }}>
+
+                    <TouchableOpacity onPress={() => handleRemove(product)}>
+                        <MaterialCommunityIcons name='delete' size={30} />
+                    </TouchableOpacity>
+
+                    <Text style={{ color: "black", paddingLeft:30, fontSize: 23, fontWeight: "bold", textAlign: "center", textAlignVertical: "center" }}>{product.title}</Text>
                     <View style={{marginBottom:25,paddingLeft:20}}>
                     {product.image}
                     </View>
@@ -98,7 +103,7 @@ export const Cart = ({route}) => {
 const styles = StyleSheet.create({
   card1: {
     marginHorizontal: 15,
-    padding: 20,
+    padding: 0,
     marginVertical: 35,
     height: 120,
     width: 360,

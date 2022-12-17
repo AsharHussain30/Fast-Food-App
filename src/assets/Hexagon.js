@@ -18,14 +18,33 @@ import { MotiPressable } from 'moti/interactions'
 export const Hexagon = () => {
   const navigation = useNavigation();
   const [showMenu, setShowMenu] = useState(false);
+
+  const production = (product) => {
+    if(product.id == 1){
+      navigation.navigate("Drink"),
+      handleAdd(product)
+    } else if(product.id == 2){
+      navigation.navigate("Donut"),
+      handleAdd(product)
+    } else if(product.id == 3){
+      navigation.navigate("HotDog"),
+      handleAdd(product)
+    } else if(product.id == 4){
+      navigation.navigate("Burger"),
+      handleAdd(product)
+    }
+   } 
+  
+
   const moveToRight = useRef(new Animated.Value(0)).current;
   const scale = useRef(new Animated.Value(1)).current;
+
 
   const scrollviewRef = useRef();
 
   const scrollingtoward = useRef(new Animated.Value(0)).current;
   const scrollingdownward = useRef(new Animated.Value(1)).current;
-
+  
 
   const { height, width } = Dimensions.get("window");
   const backward = useAnimationState({
@@ -38,7 +57,6 @@ export const Hexagon = () => {
     transition: {
       type: "spring",
       duration: 2000,
-      repeat:1
     },
   });
   const Forward = useAnimationState({
@@ -51,40 +69,38 @@ export const Hexagon = () => {
       transition: {
         type: "spring",
         duration: 3000,
-        repeat:3
       },
     },
 
   });
   const dispatch = useDispatch();
 
+  const tot = 1;
+
   const handleAdd = (product) => {
     dispatch(add(product));
   }
-  console.log(handleAdd);
-
-
+  
+  
   const Data = [
     {
-      image: <Image source={require('../../assets/burger.png')} style={{ height: 70, width: 100, }} />,
+      image: <Image source={require('../../assets/themePics/Drink.png')} style={{  height: 200,width:180, resizeMode: "contain", position: "relative", bottom: 50,left: -7,top:-15,}} />,
+      title: "Drink",
+      id: 1,
+    },{ 
+      image: <Image source={require('../../assets/themePics/donut.png')} style={{  height: 200,width:180, resizeMode: "contain", position: "relative", bottom: 50,left: 0,top:10 ,}}/>,
+      title: "Cakes",
+      id:2,
+    },{
+      image: <Image source={require('../../assets/themePics/roll.png')} style={{  height: 200,width:180, resizeMode: "contain", position: "relative", bottom: 50,left: -5,top:15,}} />,
+      title: "Hot Dog",
+      id:3,
+    },{
+      image: <Image source={require('../../assets/themePics/burger.png')} style={{ height: 200,width:180, resizeMode: "contain",  position: "relative",top:10, left: -5,}} />,
       title: "Burger",
-      id: 1
+      id:4
     },
-    {
-      image: <Image source={require('../../assets/burger2.png')} style={{ height: 70, width: 100, }} />,
-      title: "Burger",
-      id: 2
-    },
-    {
-      image: <Image source={require('../../assets/burger3.png')} style={{ height: 70, width: 100, }} />,
-      title: "Burger",
-      id: 3
-    },
-    {
-      image: <Image source={require('../../assets/burger3.png')} style={{ height: 70, width: 100, }} />,
-      title: "Burger",
-      id: 4
-    }
+
   ];
 
   return (
@@ -109,7 +125,7 @@ export const Hexagon = () => {
               }).start();
               setShowMenu(!showMenu);
             }}>
-            <Image source={require("../../assets/menu.png")} style={{ height: 30, width: 30, position: "absolute", }} />
+            <Image source={require("../../assets/menu.png")} style={{ height: 35, width: 35, position: "absolute", }} />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => navigation.navigate("Cart")} style={{ position: "absolute", alignSelf: "flex-end" }}>
             <Text style={{ paddingRight: 20, textAlign: "right", }}><MaterialCommunityIcons name="cart" size={34} color="black" /></Text>
@@ -131,7 +147,7 @@ export const Hexagon = () => {
               <MaterialCommunityIcons name='arrow-right' size={23} color="#fef9fb" style={{ paddingTop: 10, }} />
               <Image source={require("../../assets/themePics/wine.png")} style={{ height: 220, resizeMode: "contain", marginLeft: 135, position: "absolute", bottom: 30 }} />
             </View>
-            <View style={{ justifyContent: "space-between", flex: 1, flexDirection: "row", paddingVertical: 20, }}>
+            <View style={{ justifyContent:"space-between", flex: 1, flexDirection: "row", paddingVertical: 20, }}>
               <Text style={{ fontSize: 17, }}>Most Popular</Text>
               <TouchableOpacity onPress={() => backward.transitionTo("animate")}>
                 <MaterialCommunityIcons name='arrow-left' size={23} color="gray" />
@@ -140,40 +156,18 @@ export const Hexagon = () => {
                 <MaterialCommunityIcons name='arrow-right' size={23} color="black" />
               </TouchableOpacity>
             </View>
-            <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-              
-
-              <MotiView state={Forward}>
-              <MotiView state={backward}>  
-                  <View style={{ justifyContent: "space-evenly", flexDirection: "row", marginTop: 20 }}>
-                    <View style={{ height: 215, width: 145, backgroundColor: "#d3eaf4", borderRadius: 25, alignItems: "center", justifyContent: "flex-end", marginLeft: 20, marginRight: 15 }}>
-                      <TouchableOpacity onPress={() => navigation.navigate("Drink")}>
-                        <Image source={require("../../assets/themePics/Drink.png")} style={{ height: 200, resizeMode: "contain", position: "absolute", bottom: 50, left: -120, }} />
-                        <Text style={{ textAlign: "center", fontSize: 20, fontWeight: "800", color: "black", paddingBottom: 15 }}>Drink</Text>
+                <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+                  {Data.map((product,index) => (
+              <View style={{ justifyContent: "space-evenly", flexDirection: "row",flex:1, marginTop: 35 }}>
+                     <TouchableOpacity onPress={() => production(product) }>
+                     <View style={{ height: 215, width: 145, backgroundColor: "#d3eaf4", borderRadius: 25, alignItems: "center", justifyContent: "flex-end", marginLeft: 25, marginRight: 25, }}>
+                         {product.image}
+                         <Text style={{ textAlign: "center", fontSize: 20, fontWeight: "800", color: "black", paddingBottom: 15 }}>{product.title}</Text>
+                      </View>
                       </TouchableOpacity>
-                    </View>
-                    <View style={{ height: 215, width: 145, backgroundColor: "#ffe4e6", borderRadius: 25, alignItems: "center", justifyContent: "flex-end", marginLeft: 35, marginRight: 40 }}>
-                      <TouchableOpacity onPress={() => navigation.navigate("Donut")}>
-                        <Image source={require("../../assets/themePics/donut.png")} style={{ height: 170, resizeMode: "contain", position: "absolute", bottom: 50, left: -95 }} />
-                        <Text style={{ textAlign: "center", fontSize: 20, fontWeight: "800", color: "black", paddingBottom: 15 }}>Cake</Text>
-                      </TouchableOpacity>
-                    </View>
-                    <View style={{ height: 215, width: 145, backgroundColor: "#d3eaf4", borderRadius: 25, alignItems: "center", justifyContent: "flex-end", marginLeft: 10, marginRight: 15 }}>
-                      <TouchableOpacity onPress={() => navigation.navigate("HotDog")}>
-                        <Image source={require("../../assets/themePics/roll.png")} style={{ height: 140, resizeMode: "contain", position: "absolute", bottom: 0, left: -270, right: 0, top: -150 }} />
-                        <Text style={{ textAlign: "center", fontSize: 20, fontWeight: "800", color: "black", paddingBottom: 15 }}>Hot Dog</Text>
-                      </TouchableOpacity>
-                    </View>
-                    <View style={{ height: 215, width: 145, backgroundColor: "#ffe4e6", borderRadius: 25, alignItems: "center", justifyContent: "flex-end", marginLeft: 35, marginRight: 25 }}>
-                      <TouchableOpacity onPress={() => navigation.navigate("Burger")}>
-                        <Image source={require("../../assets/themePics/burger.png")} style={{ height: 130, resizeMode: "contain", position: "absolute", bottom: 60, left: -245, }} />
-                        <Text style={{ textAlign: "center", fontSize: 20, fontWeight: "800", color: "black", paddingBottom: 15 }}>Burger</Text>
-                      </TouchableOpacity>
-                    </View>
                   </View>
-              </MotiView>
-                 </MotiView> 
-            </ScrollView>
+                  ))}
+                  </ScrollView>
           </View>
         </ScrollView>
       </Animated.View>

@@ -20,7 +20,7 @@ import { SignIn } from './src/assets/AuthNavigation/SignIn';
 import { SignUp } from './src/assets/AuthNavigation/SignUp';
 import { ForgotPassword } from './src/assets/ForgotPassword';
 import auth from '@react-native-firebase/auth';
-
+import {EditCart} from './src/assets/EditCart'
 
 function App() {
   
@@ -56,6 +56,7 @@ function App() {
         <Stack.Screen name="HotDog" component={HotDog}/>
         <Stack.Screen name="Burger" component={Burger}/>
         <Stack.Screen name="Cart" component={Cart}/>
+        <Stack.Screen name="EditCart" component={EditCart}/>
         </>
         :
         <>

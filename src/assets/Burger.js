@@ -7,9 +7,20 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import { MotiView, ScrollView, useAnimationState, useDynamicAnimation } from 'moti';
 import { RotateInDownLeft, RotateInUpRight } from 'react-native-reanimated';
 import LinearGradient from 'react-native-linear-gradient';
+import { useSelector,useDispatch } from 'react-redux';
+import { decrement, increment } from '../../store/CartSlice';
 
-export const Burger = () => {
-  const animation = useDynamicAnimation(() => {
+export const Burger = ({route}) => {
+  console.log(route)
+  const products = useSelector(state => state.cart.cart)
+    const dispatch = useDispatch();
+    const increase = (item) => {
+      dispatch(increment(item))
+    }
+    const decrease = (item) => {
+      dispatch(decrement(item))
+    }
+    const animation = useDynamicAnimation(() => {
     return{
       translateY:0,
     }
@@ -31,12 +42,20 @@ export const Burger = () => {
         <Text style={{fontSize:40,color:"black",paddingLeft:25,paddingTop:10,textShadowColor:"gray",textShadowRadius:9,}}>Medium</Text>
         <Text style={{fontSize:20,color:"#969698",paddingLeft:25,paddingTop:50,textShadowColor:"gray",textShadowRadius:1,textShadowOffset:{height:0,width:0.7}}}>Delivery in</Text>
         <Text style={{fontSize:40,color:"black",paddingLeft:25,paddingTop:10,textShadowColor:"gray",textShadowRadius:9,}}>10 min</Text>
-        <LinearGradient colors={["orange","red"]} style={{height:60,width:180,flexDirection:"row",position:"absolute",overflow:"visible",top:410,left:210,borderRadius:15,justifyContent:"space-evenly",backgroundColor:"red",alignItems:"center"}}>
+        {
+        products.map((product) => (
+          <>
+        <LinearGradient colors={["orange","red"]} style={{height:60,width:180,flexDirection:"row",position:"absolute",overflow:"visible",top:410,left:210,borderRadius:15,justifyContent:"space-evenly",backgroundColor:"red",alignItems:"center"}}>    
+          <TouchableOpacity onPress={() => decrease(product)}>
           <Text style={{fontSize:25,color:"white"}}><MaterialCommunityIcons name='minus' size={34}/></Text>
-          <Text style={{fontSize:25,color:"white"}}>02</Text>
+          </TouchableOpacity>
+          <Text style={{fontSize:25,color:"white"}}>{product.quantity}</Text>
+          <TouchableOpacity onPress={() => increase(product)}>
           <Text style={{fontSize:25,color:"white",}}><MaterialCommunityIcons name='plus' size={34}/></Text>
-
-        </LinearGradient>
+          </TouchableOpacity>
+          </LinearGradient>
+          </>
+))}
       </View>
       <View style={{height:7,width:150,backgroundColor:"#908ae2",alignSelf:"center",borderRadius:50,bottom:-25,marginTop:20}}>
       </View>

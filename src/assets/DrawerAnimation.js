@@ -1,5 +1,5 @@
-import { StyleSheet, TouchableOpacity, Text, View, Image, BackHandler, Dimensions  } from 'react-native'
-import React,{useState} from 'react'
+import { StyleSheet, TouchableOpacity, Text, View, Image, BackHandler, Dimensions } from 'react-native'
+import React, { useState } from 'react'
 import { Hexagon } from './Hexagon'
 import { MotiView, useAnimationState } from 'moti'
 import { Easing } from 'react-native-reanimated'
@@ -9,123 +9,125 @@ import FontAweIcon from 'react-native-vector-icons/FontAwesome'
 import EvilIcon from 'react-native-vector-icons/EvilIcons'
 import AntIcon from 'react-native-vector-icons/AntDesign'
 import { FlatList } from 'react-native-gesture-handler'
-import {Auth} from './Firebase'
+import { Auth } from './Firebase'
 
 
 
-const {height,width} = Dimensions.get("window");
+const { height, width } = Dimensions.get("window");
 const DataItems = [
-  
+
   {
-    icon:  <Icon name="home" size={width / 12} color="white"/>,
+    icon: <Icon name="home" size={width / 12} color="white" />,
     title: "Home"
   },
   {
     icon: <EvilIcon name="search" size={width / 12} color="white" />,
-    title: "Explore" 
-  },
-  {
-    icon: <Icon name="calendar" size={width / 12} color="white" /> ,
-    title: "My Event",
-  },
-  {
-    icon: <FontIcon name="tasks" size={width / 12} color="white" />,
-    title: "Tasks" ,
+    title: "Explore"
   },
   {
     icon: <AntIcon name="addusergroup" size={width / 12} color="white" />,
-    title: "Join Friends" 
+    title: "Join Friends"
   },
   {
     icon: <AntIcon name="setting" size={width / 12} color="white" />,
-    title: "Settings" 
+    title: "Settings"
   },
   {
     icon: <Icon name="information" size={width / 12} color="white" />,
-    title: "About" 
+    title: "About"
   },
 ]
 
 export const DrawerAnimation = ({ navigation }) => {
-  const [click,setClick] = useState(0);
-  const [signout,setSignout] = useState(false);
+  const [click, setClick] = useState(0);
+  const [signout, setSignout] = useState(false);
 
-  const {height,width} = Dimensions.get("window");
+  const { height, width } = Dimensions.get("window");
 
   const animationState = useAnimationState({
-  from:{
-      scale:1,
-      opacity:1,
-  },    
-  animate:{
-    opacity:.8,
-    scale:1,
-    translateX:1,
-    transition:{
-    type:"timing",
-    duration:2000,
-    }}
+    from: {
+      scale: 1,
+      opacity: 1,
+    },
+    animate: {
+      opacity: .8,
+      scale: 1,
+      translateX: 1,
+      transition: {
+        type: "spring",
+        duration: 2000,
+      }
+    }
   });
-  
-  return(
-    <View style={{ flex: 1, backgroundColor: "#918ae2"}}>
-      <View style={{flexDirection:"row",justifyContent:"flex-start"}}>
-    <Image source={require("../../assets/1.jpg")} style={{
-      height:height / 5.8, 
-      width:width / 3,
-       marginTop: height / 30,
-    marginLeft: width / 25,
-    borderRadius: 100,
-    borderWidth:4,
-    borderColor:"#gray",
-    backgroundColor: "black",
-    marginBottom:width /15,}}/>
-     <Text style={styles.name}>LanreB</Text>
-    </View>
-      <FlatList
-      data={DataItems}
-      renderItem={({index,item})=>{
-        return(
-            <View style={{
-              justifyContent:"center",
-              }}>
-      <TouchableOpacity onPress={() => setClick(index)} style={{backgroundColor: click == index ? "#d3eaf4" : "transparent",paddingTop:7,height:height / 12.5,marginHorizontal:20,borderBottomColor:"#C7D3D4FF",borderBottomWidth:2}}>
-      <View style={{ 
-        flexDirection: "row",
-    borderRadius: 20,
-    paddingLeft: height / 30,
-    marginHorizontal: width / 15,
-    alignItems: "center",
-    marginTop:height / 150,
-    
-    }}>
-      {item.icon}
-      <Text style={styles.text}>{item.title}</Text>
+
+  return (
+
+    <View style={{ flex: 1, backgroundColor: "#918ae2" }}>
+
+      <View style={{ flexDirection: "row", justifyContent: "flex-start" }}>
+
+        <Image source={require("../../assets/img.jpeg")} blurRadius={4} style={{
+          resizeMode:"cover",
+          height:height / 6,
+          width:width / 3.1, 
+          marginTop: height / 30,
+          marginLeft: width / 25,
+          borderRadius: 100,
+          borderWidth: 4,
+          borderColor: "#gray",
+          backgroundColor: "black",
+          marginBottom: width / 9,
+        }} />
+
+        <Text style={styles.name}>LanreB</Text>
+
       </View>
-    </TouchableOpacity>
-  </View>
+
+      <FlatList
+        data={DataItems}
+        renderItem={({ index, item }) => {
+          return (
+            <View style={{
+              justifyContent: "center",
+            }}>
+              <TouchableOpacity onPress={() => setClick(index)} style={{ backgroundColor: click == index ? "#d3eaf4" : "transparent", paddingTop: 7, height: height / 12.5, marginHorizontal: 20, borderBottomColor: "#C7D3D4FF", borderBottomWidth: 2, }}>
+                <View style={{
+                  flexDirection: "row",
+                  borderRadius: 20,
+                  paddingLeft: height / 30,
+                  marginHorizontal: width / 15,
+                  alignItems: "center",
+                  marginTop: height / 150,
+
+                }}>
+                  {item.icon}
+                  <Text style={styles.text}>{item.title}</Text>
+                </View>
+              </TouchableOpacity>
+            </View>
 
 
-  )
-      }}
-        />
+          )
+        }}
+      />
 
-<TouchableOpacity onPress={() => {setSignout,Auth.signOut()}} style={{borderColor: signout ? "#C7D3D4FF" : "transparent",borderWidth:1,borderRadius:20,marginRight:90,marginHorizontal:width /5,alignItems:"flex-start",height:height / 14,paddingTop:6,marginBottom:height /39, }} > 
-<View style={styles.bottom}>
-    <FontAweIcon name="sign-out" size={width / 14} color="white" />
-      <Text style={styles.signout}>
-        Sign Out
-        </Text>
-  </View>
-    </TouchableOpacity>
+      <TouchableOpacity onPress={() => { setSignout, Auth.signOut() }} style={{ borderColor: signout ? "#C7D3D4FF" : "transparent", borderWidth: 1, borderRadius: 20, marginRight: 90, marginHorizontal: width / 5, alignItems: "flex-start", height: height / 14, paddingTop: 6, marginBottom: height / 39, }} >
+        <View style={styles.bottom}>
+          <FontAweIcon name="sign-out" size={width / 14} color="white" />
+          <Text style={styles.signout}>
+            Sign Out
+          </Text>
+        </View>
+      </TouchableOpacity>
 
 
     </View >
-  )}
+  )
+}
 
 const styles = StyleSheet.create({
   userimage: {
-   
+
   },
   name: {
     fontSize: 29,
@@ -138,7 +140,7 @@ const styles = StyleSheet.create({
   screens: {
   },
   screen: {
-   
+
   },
   text: {
     color: "white",
@@ -148,15 +150,15 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   bottom: {
-    paddingLeft:50,
+    paddingLeft: 50,
     flexDirection: "row",
-    paddingTop:6,
+    paddingTop: 6,
   },
   signout: {
     color: "white",
     fontSize: width / 24,
     paddingLeft: 30,
-    paddingTop:2.5,
+    paddingTop: 2.5,
     textAlign: "center"
   },
 })
@@ -246,9 +248,9 @@ const styles = StyleSheet.create({
 
 
 
-  {/* //{[...Array(3).keys()].map((index) => { */}
-        {/* //return ( */}
-    {/* //       <MotiView 
+{/* //{[...Array(3).keys()].map((index) => { */ }
+{/* //return ( */ }
+{/* //       <MotiView 
        from={{
     //         scale:1,
     //         opacity:0
@@ -283,4 +285,4 @@ const styles = StyleSheet.create({
     //   key={index}
     //   />
      // );
-       // })}*/}``
+       // })}*/} ``
