@@ -1,48 +1,53 @@
-import { StyleSheet, TouchableOpacity, Text, View, Image, BackHandler, Dimensions } from 'react-native'
-import React, { useState } from 'react'
-import { Hexagon } from './Hexagon'
-import { MotiView, useAnimationState } from 'moti'
-import { Easing } from 'react-native-reanimated'
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
-import FontIcon from 'react-native-vector-icons/FontAwesome5'
-import FontAweIcon from 'react-native-vector-icons/FontAwesome'
-import EvilIcon from 'react-native-vector-icons/EvilIcons'
-import AntIcon from 'react-native-vector-icons/AntDesign'
-import { FlatList } from 'react-native-gesture-handler'
-import { Auth } from './Firebase'
+import {
+  StyleSheet,
+  TouchableOpacity,
+  Text,
+  View,
+  Image,
+  BackHandler,
+  Dimensions,
+} from 'react-native';
+import React, {useState} from 'react';
+import {Hexagon} from './Hexagon';
+import {MotiView, useAnimationState} from 'moti';
+import {Easing} from 'react-native-reanimated';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import FontIcon from 'react-native-vector-icons/FontAwesome5';
+import FontAweIcon from 'react-native-vector-icons/FontAwesome';
+import EvilIcon from 'react-native-vector-icons/EvilIcons';
+import AntIcon from 'react-native-vector-icons/AntDesign';
+import {FlatList} from 'react-native-gesture-handler';
+import {Auth} from './Firebase';
 
-
-
-const { height, width } = Dimensions.get("window");
+const {height, width} = Dimensions.get('window');
 const DataItems = [
-
   {
     icon: <Icon name="home" size={width / 12} color="white" />,
-    title: "Home"
+    title: 'Home',
   },
   {
     icon: <EvilIcon name="search" size={width / 12} color="white" />,
-    title: "Explore"
+    title: 'Explore',
   },
   {
     icon: <AntIcon name="addusergroup" size={width / 12} color="white" />,
-    title: "Join Friends"
+    title: 'Join Friends',
   },
   {
     icon: <AntIcon name="setting" size={width / 12} color="white" />,
-    title: "Settings"
+    title: 'Settings',
   },
   {
     icon: <Icon name="information" size={width / 12} color="white" />,
-    title: "About"
+    title: 'About',
   },
-]
+];
 
-export const DrawerAnimation = ({ navigation }) => {
+export const DrawerAnimation = ({navigation}) => {
   const [click, setClick] = useState(0);
   const [signout, setSignout] = useState(false);
 
-  const { height, width } = Dimensions.get("window");
+  const {height, width} = Dimensions.get('window');
 
   const animationState = useAnimationState({
     from: {
@@ -50,128 +55,134 @@ export const DrawerAnimation = ({ navigation }) => {
       opacity: 1,
     },
     animate: {
-      opacity: .8,
+      opacity: 0.8,
       scale: 1,
       translateX: 1,
       transition: {
-        type: "spring",
+        type: 'spring',
         duration: 2000,
-      }
-    }
+      },
+    },
   });
 
   return (
-
-    <View style={{ flex: 1, backgroundColor: "#918ae2" }}>
-
-      <View style={{ flexDirection: "row", justifyContent: "flex-start" }}>
-
-        <Image source={require("../../assets/img.jpeg")} blurRadius={4} style={{
-          resizeMode:"cover",
-          height:height / 6,
-          width:width / 3.1, 
-          marginTop: height / 30,
-          marginLeft: width / 25,
-          borderRadius: 100,
-          borderWidth: 4,
-          borderColor: "#gray",
-          backgroundColor: "black",
-          marginBottom: width / 9,
-        }} />
+    <View style={{flex: 1, backgroundColor: '#918ae2'}}>
+      <View style={{flexDirection: 'row', justifyContent: 'flex-start'}}>
+        <Image
+          source={require('../../assets/img.jpeg')}
+          blurRadius={4}
+          style={{
+            resizeMode: 'cover',
+            height: height / 6,
+            width: width / 3.1,
+            marginTop: height / 30,
+            marginLeft: width / 25,
+            borderRadius: 100,
+            borderWidth: 4,
+            borderColor: '#gray',
+            backgroundColor: 'black',
+            marginBottom: width / 9,
+          }}
+        />
 
         <Text style={styles.name}>LanreB</Text>
-
       </View>
 
       <FlatList
         data={DataItems}
-        renderItem={({ index, item }) => {
+        renderItem={({index, item}) => {
           return (
-            <View style={{
-              justifyContent: "center",
-            }}>
-              <TouchableOpacity onPress={() => setClick(index)} style={{ backgroundColor: click == index ? "#d3eaf4" : "transparent", paddingTop: 7, height: height / 12.5, marginHorizontal: 20, borderBottomColor: "#C7D3D4FF", borderBottomWidth: 2, }}>
-                <View style={{
-                  flexDirection: "row",
-                  borderRadius: 20,
-                  paddingLeft: height / 30,
-                  marginHorizontal: width / 15,
-                  alignItems: "center",
-                  marginTop: height / 150,
-
+            <View
+              style={{
+                justifyContent: 'center',
+              }}>
+              <TouchableOpacity
+                onPress={() => setClick(index)}
+                style={{
+                  backgroundColor: click == index ? '#d3eaf4' : 'transparent',
+                  paddingTop: 7,
+                  height: height / 12.5,
+                  marginHorizontal: 20,
+                  borderBottomColor: '#C7D3D4FF',
+                  borderBottomWidth: 2,
                 }}>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    borderRadius: 20,
+                    paddingLeft: height / 30,
+                    marginHorizontal: width / 15,
+                    alignItems: 'center',
+                    marginTop: height / 150,
+                  }}>
                   {item.icon}
                   <Text style={styles.text}>{item.title}</Text>
                 </View>
               </TouchableOpacity>
             </View>
-
-
-          )
+          );
         }}
       />
 
-      <TouchableOpacity onPress={() => { setSignout, Auth.signOut() }} style={{ borderColor: signout ? "#C7D3D4FF" : "transparent", borderWidth: 1, borderRadius: 20, marginRight: 90, marginHorizontal: width / 5, alignItems: "flex-start", height: height / 14, paddingTop: 6, marginBottom: height / 39, }} >
+      <TouchableOpacity
+        onPress={() => {
+          setSignout, Auth.signOut();
+        }}
+        style={{
+          borderColor: signout ? '#C7D3D4FF' : 'transparent',
+          borderWidth: 1,
+          borderRadius: 20,
+          marginRight: 90,
+          marginHorizontal: width / 5,
+          alignItems: 'flex-start',
+          height: height / 14,
+          paddingTop: 6,
+          marginBottom: height / 39,
+        }}>
         <View style={styles.bottom}>
           <FontAweIcon name="sign-out" size={width / 14} color="white" />
-          <Text style={styles.signout}>
-            Sign Out
-          </Text>
+          <Text style={styles.signout}>Sign Out</Text>
         </View>
       </TouchableOpacity>
-
-
-    </View >
-  )
-}
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
-  userimage: {
-
-  },
+  userimage: {},
   name: {
     fontSize: 29,
-    color: "#d3eaf4",
+    color: '#d3eaf4',
     paddingTop: 60,
     paddingLeft: 170,
-    fontWeight: "bold",
-    position: "absolute"
+    fontWeight: 'bold',
+    position: 'absolute',
   },
-  screens: {
-  },
-  screen: {
-
-  },
+  screens: {},
+  screen: {},
   text: {
-    color: "white",
-    fontWeight: "500",
+    color: 'white',
+    fontWeight: '500',
     fontSize: width / 20.5,
     paddingLeft: 30,
-    textAlign: "center",
+    textAlign: 'center',
   },
   bottom: {
     paddingLeft: 50,
-    flexDirection: "row",
+    flexDirection: 'row',
     paddingTop: 6,
   },
   signout: {
-    color: "white",
+    color: 'white',
     fontSize: width / 24,
     paddingLeft: 30,
     paddingTop: 2.5,
-    textAlign: "center"
+    textAlign: 'center',
   },
-})
+});
 
-
-
-
-
-
-
-
-
-{/* <View style={styles.screens}>
+{
+  /* <View style={styles.screens}>
      <MotiView state={animationState}>
       <TouchableOpacity onPress={setClick} style={{backgroundColor:click?"#12c7a6":0}}>
       <View style={styles.screen}>
@@ -239,18 +250,17 @@ const styles = StyleSheet.create({
   </View>
 
 
-  */}
+  */
+}
 
-
-
-
-
-
-
-
-{/* //{[...Array(3).keys()].map((index) => { */ }
-{/* //return ( */ }
-{/* //       <MotiView 
+{
+  /* //{[...Array(3).keys()].map((index) => { */
+}
+{
+  /* //return ( */
+}
+{
+  /* //       <MotiView 
        from={{
     //         scale:1,
     //         opacity:0
@@ -285,4 +295,6 @@ const styles = StyleSheet.create({
     //   key={index}
     //   />
      // );
-       // })}*/} ``
+       // })}*/
+}
+``;
